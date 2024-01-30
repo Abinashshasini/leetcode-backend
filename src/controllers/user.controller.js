@@ -1,5 +1,6 @@
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { ApiError } from '../utils/apiError.js';
+import { ApiResponse } from '../utils/apiResponse.js';
 import { User } from '../models/user.model.js';
 
 /**
@@ -13,13 +14,13 @@ import { User } from '../models/user.model.js';
  */
 const handleRegisterUser = asyncHandler(async (req, res) => {
   const { email, password, username } = req.body;
-  console.log('req.body', req.body);
+  console.log('req.body: ', req.body);
 
-  if ([username, email, password].some((fields) => fields?.trim() === '')) {
-    throw new ApiError(400, 'All fields are required');
+  if ([username, email, password].some((field) => field?.trim() === '')) {
+    throw new ApiError(400, 'Oops! some fileds are missing');
   }
 
-  const isExistedUser = User.findOne({
+  const isExistedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
 
@@ -33,7 +34,17 @@ const handleRegisterUser = asyncHandler(async (req, res) => {
     password,
   });
 
-  const createdUser = await User.findById(user?._id).select('');
+  const createdUser = await User.findById(user?._id).select(
+    '-password -refreshToken'
+  );
+
+  if (!createdUser) {
+    throw new ApiError(500, 'Something went wrong while registering the user');
+  }
+
+  return res
+    .status(201)
+    .json(new ApiResponse(200, createdUser, 'User registered successfully'));
 });
 
 export { handleRegisterUser };
