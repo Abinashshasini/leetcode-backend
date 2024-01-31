@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import {
-  handleRegisterUser,
   handleLoginUser,
   handleLogoutUser,
+  handleRegisterUser,
+  handleRefreshAccessToken,
 } from '../controllers/user.controller.js';
-import { handleVerifyJWT } from '../middlewares/auth.middleware';
+import { handleVerifyJWT } from '../middlewares/auth.middleware.js';
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.route('/login').post(handleLoginUser);
 
 /** Declaring secured routes */
 router.route('/logout').post(handleVerifyJWT, handleLogoutUser);
+router.route('/refresh-token').post(handleRefreshAccessToken);
 
 export default router;
