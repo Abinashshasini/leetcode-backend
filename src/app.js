@@ -21,13 +21,17 @@ app.use(cookieParser());
 /** import routes */
 import userRouter from './routes/user.routes.js';
 import problemRoutes from './routes/problem.routes.js';
+import questionRoutes from './routes/questions.routes.js';
 
 /** Routes declaration
- * user routes
+ * User routes
  */
 app.use('/api/v1/users', userRouter);
 
-/** problem routes */
+/** Problem routes */
 app.use('/api/v1/problem', problemRoutes);
+
+/** Questions routes */
+app.use('/api/v1/questions', questionRoutes);
 
 export { app };
