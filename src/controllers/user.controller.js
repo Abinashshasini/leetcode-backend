@@ -99,6 +99,33 @@ const handleLoginUser = asyncHandler(async (req, res) => {
     await handleGenerateAccessAndRefreshToken(user._id);
 
   const loggedInUser = User.findOne(user._id).select('-password -refreshToken');
+
+  const cookiesOptions = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .cookie('accessToken', accessToken, cookiesOptions)
+    .cookie('refreshToken', refreshToken, cookiesOptions)
+    .json(
+      new ApiResponse(
+        200,
+        {
+          user: loggedInUser,
+          accessToken,
+          refreshToken,
+        },
+        'User logged in Successfully'
+      )
+    );
 });
 
-export { handleRegisterUser, handleLoginUser };
+/*
+ * STEPS
+ * 1. Get user details from frontend.
+ */
+const handleLogoutUser = asyncHandler(async (req, res) => {});
+
+export { handleRegisterUser, handleLoginUser, handleLogoutUser };
