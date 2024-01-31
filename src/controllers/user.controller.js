@@ -126,6 +126,29 @@ const handleLoginUser = asyncHandler(async (req, res) => {
  * STEPS
  * 1. Get user details from frontend.
  */
-const handleLogoutUser = asyncHandler(async (req, res) => {});
+const handleLogoutUser = asyncHandler(async (req, res) => {
+  const user = User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: {
+        refreshToken: undefined,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  const cookiesOptions = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .clearCookies('accessToken', cookiesOptions)
+    .clearCookies('refreshToken', cookiesOptions)
+    .json(new ApiResponse(200, {}, 'User logged Out Successfully!!'));
+});
 
 export { handleRegisterUser, handleLoginUser, handleLogoutUser };
