@@ -6,7 +6,7 @@ import { User } from '../models/user.model.js';
 /**
  * STEPS
  */
-const handleAddQuestion = asyncHandler(async (req, res) => {
+const handleAddProblem = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, {}, 'Question added successfully'));
@@ -15,10 +15,10 @@ const handleAddQuestion = asyncHandler(async (req, res) => {
 /**
  * STEPS
  */
-const handleFetchAllQuestions = asyncHandler(async (req, res) => {
+const handleFetchAllProblems = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, {}, 'Questions sent successfully'));
 });
 
-export { handleAddQuestion, handleFetchAllQuestions };
+export { handleAddProblem, handleFetchAllProblems };

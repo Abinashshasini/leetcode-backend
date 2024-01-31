@@ -2,9 +2,12 @@ import mongoose from 'mongoose';
 
 const problemSchema = new mongoose.Schema(
   {
-    id: {
+    qid: {
       type: String,
       required: true,
+      unique: true,
+      lowecase: true,
+      trim: true,
     },
     title: {
       type: String,
@@ -15,7 +18,10 @@ const problemSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    category: {},
+    category: {
+      type: String,
+      required: true,
+    },
     difficulty: {
       type: String,
       required: true,
