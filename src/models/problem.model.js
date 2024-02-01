@@ -13,6 +13,7 @@ const problemSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
     acceptance: {
       type: String,
@@ -32,10 +33,6 @@ const problemSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    isFavourite: {
-      type: Boolean,
-      default: false,
-    },
     likes: {
       type: Number,
       default: 0,
@@ -48,9 +45,9 @@ const problemSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    status: {
-      type: Boolean,
-      default: false,
+    comments: {
+      type: Array,
+      default: [],
     },
   },
   { timestamps: true }

@@ -3,6 +3,7 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 import { ApiError } from '../utils/apiError.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import { User } from '../models/user.model.js';
+import { UserDetails } from '../models/user-details.models.js';
 
 /** Cookie option's for setting user cookies */
 const cookiesOptions = {
@@ -39,7 +40,7 @@ const handleGenerateAccessAndRefreshToken = async (userId) => {
  * 6. Check user creation and return response.
  */
 const handleRegisterUser = asyncHandler(async (req, res) => {
-  const { email, password, username } = req.body;
+  const { email = '', password = '', username = '' } = req.body;
 
   if ([username, email, password].some((field) => field?.trim() === '')) {
     throw new ApiError(400, 'Oops! some fileds are missing');
@@ -66,6 +67,10 @@ const handleRegisterUser = asyncHandler(async (req, res) => {
   if (!createdUser) {
     throw new ApiError(500, 'Something went wrong while registering the user');
   }
+
+  await UserDetails.create({
+    id: user?._id,
+  });
 
   return res
     .status(201)

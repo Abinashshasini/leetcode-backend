@@ -23,21 +23,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Password is required'],
     },
-    dislikedProblems: {
-      type: Array,
-    },
-    likedProblems: {
-      type: Array,
-      default: [],
-    },
-    solvedProblems: {
-      type: Array,
-      default: [],
-    },
-    starredProblems: {
-      type: Array,
-      default: [],
-    },
     refreshToken: {
       type: String,
     },
